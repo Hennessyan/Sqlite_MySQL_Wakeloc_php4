@@ -89,52 +89,67 @@ public class VariableManager {
             }
 
             if(wifistate[0] == 1){
+                gpses = find_all_gps();
+                acces = find_all_acce();
+                gyros = find_all_gyro();
+                motions = find_all_motion();
+                steps = find_all_step();
+                batteries = find_all_battery();
+                wifis = find_all_wifi();
+
                 latch = new CountDownLatch(7);
                 Thread t1 = new Thread() {
                     public void run() {
-                        result[0] = post_data(gps_url, changeGpsDateToJson());
+                        if(gpses != null)
+                            result[0] = post_data(gps_url, changeGpsDateToJson());
                         latch.countDown();
                     }
                 };
                 t1.start();
                 Thread t2 = new Thread() {
                     public void run() {
-                        result[1] = post_data(acce_url, changeAcceDateToJson());
+                        if(acces != null)
+                            result[1] = post_data(acce_url, changeAcceDateToJson());
                         latch.countDown();
                     }
                 };
                 t2.start();
                 Thread t3 = new Thread() {
                     public void run() {
-                        result[2] = post_data(gyro_url, changeGyroDateToJson());
+                        if(gyros != null)
+                            result[2] = post_data(gyro_url, changeGyroDateToJson());
                         latch.countDown();
                     }
                 };
                 t3.start();
                 Thread t4 = new Thread() {
                     public void run() {
-                        result[3] = post_data(step_url, changeStepDateToJson());
+                        if(steps != null)
+                            result[3] = post_data(step_url, changeStepDateToJson());
                         latch.countDown();
                     }
                 };
                 t4.start();
                 Thread t5 = new Thread() {
                     public void run() {
-                        result[4] = post_data(motion_url, changeMotionDateToJson());
+                        if(motions != null)
+                            result[4] = post_data(motion_url, changeMotionDateToJson());
                         latch.countDown();
                     }
                 };
                 t5.start();
                 Thread t6 = new Thread() {
                     public void run() {
-                        result[5] = post_data(wifi_url, changeWiFiDateToJson());
+                        if(wifis != null)
+                            result[5] = post_data(wifi_url, changeWiFiDateToJson());
                         latch.countDown();
                     }
                 };
                 t6.start();
                 Thread t7 = new Thread() {
                     public void run() {
-                        result[6] = post_data(battery_url, changeBatteryDateToJson());
+                        if(batteries != null)
+                            result[6] = post_data(battery_url, changeBatteryDateToJson());
                         latch.countDown();
                     }
                 };
@@ -410,8 +425,7 @@ public class VariableManager {
     }
 
     private JSONArray changeGpsDateToJson() {
-        gpses = find_all_gps();
-        if(gpses != null && gpses.size() == sizeOfUpload) {
+        if(gpses.size() == sizeOfUpload) {
             GpsJsonArray = null;
             GpsJsonArray = new JSONArray();
             for (int i = 0; i < gpses.size(); i++) {
@@ -432,8 +446,7 @@ public class VariableManager {
             return null;
     }
     private JSONArray changeAcceDateToJson() {
-        acces = find_all_acce();
-        if(acces != null && acces.size() == sizeOfUpload) {
+        if(acces.size() == sizeOfUpload) {
             AcceJsonArray = null;
             AcceJsonArray = new JSONArray();
             for (int i = 0; i < acces.size(); i++) {
@@ -455,8 +468,7 @@ public class VariableManager {
             return null;
     }
     private JSONArray changeGyroDateToJson() {
-        gyros = find_all_gyro();
-        if(gyros != null && gyros.size() == sizeOfUpload) {
+        if(gyros.size() == sizeOfUpload) {
             GyroJsonArray = null;
             GyroJsonArray = new JSONArray();
             for (int i = 0; i < gyros.size(); i++) {
@@ -478,8 +490,7 @@ public class VariableManager {
             return null;
     }
     private JSONArray changeMotionDateToJson() {
-        motions = find_all_motion();
-        if(motions != null && motions.size() == sizeOfUpload) {
+        if(motions.size() == sizeOfUpload) {
             MotionJsonArray = null;
             MotionJsonArray = new JSONArray();
             for (int i = 0; i < motions.size(); i++) {
@@ -499,8 +510,7 @@ public class VariableManager {
             return null;
     }
     private JSONArray changeStepDateToJson() {
-        steps = find_all_step();
-        if(steps != null && steps.size() == sizeOfUpload) {
+        if(steps.size() == sizeOfUpload) {
             StepJsonArray = null;
             StepJsonArray = new JSONArray();
             for (int i = 0; i < steps.size(); i++) {
@@ -520,8 +530,7 @@ public class VariableManager {
             return null;
     }
     private JSONArray changeBatteryDateToJson() {
-        batteries = find_all_battery();
-        if(batteries != null && batteries.size() == sizeOfUpload) {
+        if(batteries.size() == sizeOfUpload) {
             BatteryJsonArray = null;
             BatteryJsonArray = new JSONArray();
             for (int i = 0; i < batteries.size(); i++) {
@@ -541,8 +550,7 @@ public class VariableManager {
             return null;
     }
     private JSONArray changeWiFiDateToJson() {
-        wifis = find_all_wifi();
-        if(wifis != null && wifis.size() == sizeOfUpload) {
+        if(wifis.size() == sizeOfUpload) {
             WiFiJsonArray = null;
             WiFiJsonArray = new JSONArray();
             for (int i = 0; i < wifis.size(); i++) {
