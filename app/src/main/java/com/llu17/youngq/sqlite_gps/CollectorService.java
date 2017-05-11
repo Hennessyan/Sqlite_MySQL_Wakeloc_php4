@@ -158,7 +158,7 @@ public class CollectorService extends Service implements SensorEventListener {
         id = getSerialNumber();
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        sampling_rate = Integer.valueOf(preferences.getString(getResources().getString(R.string.sr_key_all),"3000"));
+        sampling_rate = Integer.valueOf(preferences.getString(getResources().getString(R.string.sr_key_all),"1000"));
         Log.e("-----ALL SR2-----","CS : "+sampling_rate);
 
         /*===WiFi State===*/
@@ -207,7 +207,7 @@ public class CollectorService extends Service implements SensorEventListener {
         timer = new Timer();
         timer.schedule(new Upload(acce, gyro, stepcount, gps_location, state), 0, sampling_rate);
         timer1 = new Timer();
-        timer1.schedule(new Upload1(batteryPercentage, wifistate), 0, 1000);   //change to 60000
+        timer1.schedule(new Upload1(batteryPercentage, wifistate), 0, 60000);   //change to 60000
         return START_STICKY;
     }
 

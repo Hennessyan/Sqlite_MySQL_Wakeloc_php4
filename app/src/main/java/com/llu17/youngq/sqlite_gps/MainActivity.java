@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.PowerManager;
 import android.provider.Settings;
@@ -68,30 +69,27 @@ public class MainActivity extends AppCompatActivity  implements SharedPreference
             e.printStackTrace();
         }
         Log.e("version:-------",""+ v);
-        //Can't use:
+        //Can use:
         //ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
-        //android.content.ActivityNotFoundException: No Activity found to handle Intent { act=android.settings.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS }
-//        try {
-//            String packageName = this.getPackageName();
-//            Log.e("pachageName: ", packageName);
-//            PowerManager pm = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//                if (!pm.isIgnoringBatteryOptimizations(packageName)) {
-//                    Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-//                    startActivity(intent);
-//                }
-//            }
-//        }
-//        catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
-
         //Can use:
         //ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS
-        Intent intent = new Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
-        startActivity(intent);
-
+        try {
+            Intent intent = new Intent();
+            String packageName = this.getPackageName();
+            Log.e("pachageName: ", packageName);
+            PowerManager pm = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (!pm.isIgnoringBatteryOptimizations(packageName)){
+//                    Intent intent = new Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+                    intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                    intent.setData(Uri.parse("package:" + packageName));
+                    startActivity(intent);
+                }
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
     /*Sampling rate menu*/
