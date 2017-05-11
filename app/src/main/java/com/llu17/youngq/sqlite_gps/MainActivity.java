@@ -1,8 +1,13 @@
 package com.llu17.youngq.sqlite_gps;
 
+import android.*;
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Build;
+import android.os.PowerManager;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -48,10 +53,10 @@ public class MainActivity extends AppCompatActivity  implements SharedPreference
         //////////
 
 
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION,
-                    android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.INTERNET}, 10);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.INTERNET}, 10);
 //            Toast.makeText(this, "Check_Permission", Toast.LENGTH_SHORT).show();
         }
 
@@ -63,9 +68,30 @@ public class MainActivity extends AppCompatActivity  implements SharedPreference
             e.printStackTrace();
         }
         Log.e("version:-------",""+ v);
+        //Can't use:
         //ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+        //android.content.ActivityNotFoundException: No Activity found to handle Intent { act=android.settings.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS }
+//        try {
+//            String packageName = this.getPackageName();
+//            Log.e("pachageName: ", packageName);
+//            PowerManager pm = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                if (!pm.isIgnoringBatteryOptimizations(packageName)) {
+//                    Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+//                    startActivity(intent);
+//                }
+//            }
+//        }
+//        catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
+
+        //Can use:
+        //ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS
         Intent intent = new Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
         startActivity(intent);
+
 
     }
     /*Sampling rate menu*/
