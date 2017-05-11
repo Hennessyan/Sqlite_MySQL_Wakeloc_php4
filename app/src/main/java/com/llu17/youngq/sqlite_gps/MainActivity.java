@@ -3,6 +3,7 @@ package com.llu17.youngq.sqlite_gps;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -62,6 +63,9 @@ public class MainActivity extends AppCompatActivity  implements SharedPreference
             e.printStackTrace();
         }
         Log.e("version:-------",""+ v);
+        //ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+        Intent intent = new Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+        startActivity(intent);
 
     }
     /*Sampling rate menu*/
